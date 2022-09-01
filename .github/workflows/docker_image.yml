@@ -16,8 +16,9 @@ jobs:
       with:
         images: |
           ghcr.io/${INPUT_REPOSITORY}
+        flavor: |
+          latest=true
         tags: |
-          type=latest
           type=sha
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
