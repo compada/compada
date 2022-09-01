@@ -6,8 +6,6 @@ jobs:
     name: Docker Image
     runs-on: ubuntu-latest
     steps:
-    - name: Set ENV
-      run: echo INPUT_REPOSITORY=$GITHUB_REPOSITORY/${GITHUB_REPOSITORY##*/} >> $GITHUB_ENV
     - name: Checkout
       uses: actions/checkout@v3
     - name: Docker meta
@@ -15,7 +13,7 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ghcr.io/${{ env.INPUT_REPOSITORY }}
+          ghcr.io/$GITHUB_REPOSITORY
         flavor: |
           latest=true
         tags: |
@@ -33,6 +31,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
+        context: .
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
